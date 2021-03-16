@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "355FFDEA-329C-4C26-8F16-B4537C923873"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CCAECEC1-80DE-4E8E-8345-4779D2667090"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "SliderStyle"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "CCAECEC1-80DE-4E8E-8345-4779D2667090 - c90bcc25a8f10c86"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SliderStyle::~SliderStyle()"
+                  moduleName = "Saturator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lennartnicolas/JUCEProjects/Saturator/Source/PluginEditor.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "CCAECEC1-80DE-4E8E-8345-4779D2667090 - c90bcc25a8f10c86"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SliderStyle::~SliderStyle()"
+                  moduleName = "Saturator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lennartnicolas/JUCEProjects/Saturator/Source/PluginEditor.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "CCAECEC1-80DE-4E8E-8345-4779D2667090 - c90bcc25a8f10c86"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SliderStyle::~SliderStyle()"
+                  moduleName = "Saturator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lennartnicolas/JUCEProjects/Saturator/Source/PluginEditor.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
