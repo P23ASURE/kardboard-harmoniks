@@ -5,6 +5,8 @@
               pluginManufacturer="Plugins">
   <MAINGROUP id="r76Pcm" name="Saturator">
     <GROUP id="{9E8D5E2A-88A3-482B-3E32-30A92ABAD5EB}" name="Assets">
+      <FILE id="Y7PyWV" name="background.png" compile="0" resource="1" file="Assets/background.png"/>
+      <FILE id="CsdHgI" name="button1.png" compile="0" resource="1" file="Assets/button1.png"/>
       <FILE id="IEzQ3n" name="stitchedJuceKnob.png" compile="0" resource="1"
             file="Assets/stitchedJuceKnob.png"/>
     </GROUP>
@@ -20,26 +22,27 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="Saturator"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="Saturator"/>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_dsp" path="../JUCE/modules"/>
       </MODULEPATHS>
-    </XCODE_MAC>
+    </VS2022>
   </EXPORTFORMATS>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -51,6 +54,7 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

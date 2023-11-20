@@ -11,23 +11,59 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
+
 //==============================================================================
 /**
 */
 class SliderStyle : public juce::LookAndFeel_V4
 {
 public:
-    
+        
     SliderStyle()
     {
+
         setColour(juce::Slider::thumbColourId, juce::Colours::white);
         knob = juce::ImageCache::getFromMemory(BinaryData::stitchedJuceKnob_png, BinaryData::stitchedJuceKnob_pngSize);
+
     }
     
+    // Metodo per disegnare i toggle buttons
+    void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
+        bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
+    {
+
+        // disegna effettivamente il bottone
+        LookAndFeel_V4::drawToggleButton(g, button, shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
+
+        // Calcoliamo il rettangolo dove disegnare l'immagine
+        auto bounds = button.getLocalBounds().toFloat();
+        auto source = button.getToggleState() ? juce::Rectangle<int>(0, 32, 32, 32) // La parte superiore dello sprite sheet
+            : juce::Rectangle<int>(0, 0, 32, 32); // La parte inferiore dello sprite sheet
+        
+        // Carica l'immagine dallo sprite sheet
+        juce::Image spriteSheet = juce::ImageCache::getFromMemory(BinaryData::button1_png, BinaryData::button1_pngSize);
+        
+        // Se l'immagine è valida, disegna la parte corretta dello sprite sheet
+        if (spriteSheet.isValid())
+        {
+            g.drawImage(spriteSheet,
+                
+                (int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight(),
+               
+                source.getX(), source.getY(), source.getWidth(), source.getHeight());
+        }
+        else
+        {
+            
+            g.setColour(button.getToggleState() ? juce::Colours::green : juce::Colours::red);
+            g.fillRect(bounds);
+        }
+    }
+
+
     void drawRotarySlider (juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
                            const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) override
-    {
-        
+    {     
         
         if (knob.isValid())
             {
@@ -52,60 +88,12 @@ public:
 
                 g.drawFittedText(juce::String("No Image"), text_bounds.getSmallestIntegerContainer(), juce::Justification::horizontallyCentred | juce::Justification::centred, 1);
             }
-        
-//        auto fill = juce::Colours::lightgrey;
-//        auto outline    = slider.findColour (juce::Slider::rotarySliderFillColourId);
-//
-//        auto bounds = juce::Rectangle<int> (x, y, width, height).toFloat().reduced (10);
-//
-//        auto radius = juce::jmin (bounds.getWidth(), bounds.getHeight()) / 2.0f;
-//        auto toAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-//        auto lineW = juce::jmin (6.0f, radius * 0.5f);
-//        auto arcRadius = radius - lineW * 0.5f;
-//
-//        juce::Path backgroundArc;
-//        backgroundArc.addCentredArc (bounds.getCentreX(),
-//                                     bounds.getCentreY(),
-//                                     arcRadius,
-//                                     arcRadius,
-//                                     0.0f,
-//                                     rotaryStartAngle,
-//                                     rotaryEndAngle,
-//                                     true);
-//
-//        g.setColour (outline);
-//        g.strokePath (backgroundArc, juce::PathStrokeType (lineW, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
-//
-//        if (slider.isEnabled())
-//        {
-//            juce::Path valueArc;
-//            valueArc.addCentredArc (bounds.getCentreX(),
-//                                    bounds.getCentreY(),
-//                                    arcRadius,
-//                                    arcRadius,
-//                                    0.0f,
-//                                    rotaryStartAngle,
-//                                    toAngle,
-//                                    true);
-//
-//            g.setColour (fill);
-//            g.strokePath (valueArc, juce::PathStrokeType (lineW, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
-//        }
-//
-//        auto thumbWidth = lineW * 1.5f;
-//        juce::Point<float> thumbPoint (bounds.getCentreX() + arcRadius * std::cos (toAngle - juce::MathConstants<float>::halfPi),
-//                                 bounds.getCentreY() + arcRadius * std::sin (toAngle - juce::MathConstants<float>::halfPi));
-//
-//        g.setColour (slider.findColour (juce::Slider::thumbColourId));
-//        g.fillEllipse (juce::Rectangle<float> (thumbWidth, thumbWidth).withCentre (thumbPoint));
-        
+             
     };
 private:
     juce::Image knob;
-
     
 };
-
 
 
 class SaturatorAudioProcessorEditor  : public juce::AudioProcessorEditor
@@ -125,7 +113,11 @@ public:
     void resized() override;
 
 private:
+    juce::Slider highPassFreqSlider; 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> highPassFreqSliderAttachment; 
+    juce::Label highPassFreqLabel;
     
+    SliderStyle customLookAndFeel;
     SliderStyle customLook;
     juce::Slider m_sliderInput, m_sliderDrive, m_sliderOutput, m_sliderMix;
     
@@ -139,6 +131,9 @@ private:
     juce::ToggleButton waveform1, waveform2, waveform3;
     
     SaturatorAudioProcessor& audioProcessor;
+
+    juce::Image backgroundImage;
+    
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SaturatorAudioProcessorEditor)
 };

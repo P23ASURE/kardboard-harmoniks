@@ -1,0 +1,72 @@
+
+Builds/VisualStudio2022/.vs/Saturator/FileContentIndex/53813e0e-cb99-40f9-bad2-cc9983fd3aa7.vsidx
+Builds/VisualStudio2022/.vs/Saturator/FileContentIndex/d2160436-5045-443d-ba70-e2fb20bd3a04.vsidx
+Builds/VisualStudio2022/.vs/Saturator/v17/.suo
+Builds/VisualStudio2022/.vs/Saturator/v17/Browse.VC.db
+Builds/VisualStudio2022/.vs/Saturator/v17/fileList.bin
+Builds/VisualStudio2022/.vs/Saturator/v17/Solution.VC.db
+Builds/VisualStudio2022/resources.rc
+Builds/VisualStudio2022/Saturator.sln
+Builds/VisualStudio2022/Saturator_SharedCode.vcxproj
+Builds/VisualStudio2022/Saturator_SharedCode.vcxproj.filters
+Builds/VisualStudio2022/Saturator_StandalonePlugin.vcxproj
+Builds/VisualStudio2022/Saturator_StandalonePlugin.vcxproj.filters
+Builds/VisualStudio2022/Saturator_StandalonePlugin.vcxproj.user
+Builds/VisualStudio2022/Saturator_VST3.vcxproj
+Builds/VisualStudio2022/Saturator_VST3.vcxproj.filters
+Builds/VisualStudio2022/x64/Debug/Shared Code/BinaryData.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_basics.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_devices.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_formats.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_ARA.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_RTAS_1.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_RTAS_2.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_RTAS_3.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_RTAS_4.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_RTAS_utils.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_plugin_client_utils.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_processors.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_processors_ara.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_processors_lv2_libs.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_audio_utils.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_core.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_data_structures.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_dsp.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_events.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_graphics.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_gui_basics.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/include_juce_gui_extra.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/PluginEditor.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/PluginProcessor.obj
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/CL.11396.write.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/CL.command.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/Cl.items.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/CL.read.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/Lib-link.read.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/Lib-link.write.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/Lib.command.1.tlog
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/Saturator_SharedCode.lastbuildstate
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturator.lib
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturator.lib.recipe
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturator.pdb
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturator_SharedCode.log
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturator_SharedCode.vcxproj.FileListAbsolute.txt
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/include_juce_audio_plugin_client_Standalone.obj
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/resources.res
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/CL.command.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/Cl.items.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/CL.read.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/CL.write.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/link.command.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/link.read.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/link.write.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/rc.command.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/rc.read.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/rc.write.1.tlog
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturato.60F13988.tlog/Saturator_StandalonePlugin.lastbuildstate
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.exe
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.exe.recipe
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.ilk
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.pdb
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator_StandalonePlugin.log
+Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator_StandalonePlugin.vcxproj.FileListAbsolute.txt
