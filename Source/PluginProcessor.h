@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "LevelMeter.h"
 
 //==============================================================================
 /**
@@ -53,6 +54,7 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+    LevelMeter& getOutputLevelMeter() { return outputLevelMeter; }
 
     juce::AudioProcessorValueTreeState& getValueTreeState()
     {
@@ -62,13 +64,20 @@ public:
 
   
 private:
+    LevelMeter outputLevelMeter;
+
+    float currentLowPassCutoffFrequency;
+    float targetLowPassCutoffFrequency;
+
+    float lowPassFreq;
+
     float currentCutoffFrequency;
     float targetCutoffFrequency;
     float Q = 0.707f;
 
-    std::deque<float> rmsValues; // Coda per memorizzare i valori RMS passati
-    float smoothedRms = 0.0f;    // Valore RMS lisciato
-    const size_t smoothSize = 10; // Numero di campioni per la media mobile
+    std::deque<float> rmsValues; 
+    float smoothedRms = 0.0f;    
+    const size_t smoothSize = 10; 
 
     juce::AudioBuffer<float> upsampledBuffer;
     juce::AudioBuffer<float> downsampledBuffer;

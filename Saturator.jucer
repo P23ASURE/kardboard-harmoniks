@@ -5,12 +5,17 @@
               pluginManufacturer="Plugins">
   <MAINGROUP id="r76Pcm" name="Saturator">
     <GROUP id="{9E8D5E2A-88A3-482B-3E32-30A92ABAD5EB}" name="Assets">
-      <FILE id="Y7PyWV" name="background.png" compile="0" resource="1" file="Assets/background.png"/>
+      <FILE id="Cy508K" name="background.png" compile="0" resource="1" file="../../juce-saturator-main/Assets/background.png"/>
+      <FILE id="DN8nDD" name="button.png" compile="0" resource="1" file="../../juce-saturator-main/Assets/button.png"/>
       <FILE id="CsdHgI" name="button1.png" compile="0" resource="1" file="Assets/button1.png"/>
+      <FILE id="OX1PND" name="HPFSlider.png" compile="0" resource="1" file="Assets/HPFSlider.png"/>
+      <FILE id="QIQwvl" name="led_meter.png" compile="0" resource="1" file="Assets/led_meter.png"/>
       <FILE id="IEzQ3n" name="stitchedJuceKnob.png" compile="0" resource="1"
             file="Assets/stitchedJuceKnob.png"/>
     </GROUP>
     <GROUP id="{9067E17C-560B-F555-5958-6DD58253167D}" name="Source">
+      <FILE id="UMJ9AM" name="levelmeter.cpp" compile="1" resource="0" file="Source/levelmeter.cpp"/>
+      <FILE id="jBucJi" name="levelmeter.h" compile="0" resource="0" file="Source/levelmeter.h"/>
       <FILE id="vpE4Qz" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="jBRPiN" name="PluginProcessor.h" compile="0" resource="0"

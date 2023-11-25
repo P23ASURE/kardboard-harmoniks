@@ -10,7 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-
+#include "LevelMeter.h"
 
 //==============================================================================
 /**
@@ -27,23 +27,22 @@ public:
 
     }
     
-    // Metodo per disegnare i toggle buttons
-    void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
+   void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button,
         bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override
     {
 
-        // disegna effettivamente il bottone
+        
         LookAndFeel_V4::drawToggleButton(g, button, shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
 
-        // Calcoliamo il rettangolo dove disegnare l'immagine
-        auto bounds = button.getLocalBounds().toFloat();
-        auto source = button.getToggleState() ? juce::Rectangle<int>(0, 32, 32, 32) // La parte superiore dello sprite sheet
-            : juce::Rectangle<int>(0, 0, 32, 32); // La parte inferiore dello sprite sheet
         
-        // Carica l'immagine dallo sprite sheet
+        auto bounds = button.getLocalBounds().toFloat();
+        auto source = button.getToggleState() ? juce::Rectangle<int>(0, 32, 32, 32) // upside
+            : juce::Rectangle<int>(0, 0, 32, 32); // downside
+        
+        
         juce::Image spriteSheet = juce::ImageCache::getFromMemory(BinaryData::button1_png, BinaryData::button1_pngSize);
         
-        // Se l'immagine è valida, disegna la parte corretta dello sprite sheet
+        
         if (spriteSheet.isValid())
         {
             g.drawImage(spriteSheet,
@@ -113,6 +112,11 @@ public:
     void resized() override;
 
 private:
+    juce::Slider lowPassFreqSlider;
+    juce::Label lowPassFreqLabel;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lowPassFreqSliderAttachment;
+
+
     juce::Slider highPassFreqSlider; 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> highPassFreqSliderAttachment; 
     juce::Label highPassFreqLabel;

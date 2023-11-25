@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "LevelMeter.h"
 
 //==============================================================================
 SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor(SaturatorAudioProcessor& p)
@@ -67,15 +68,38 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor(SaturatorAudioProce
     highPassFreqSlider.onValueChange = [this]() {
         highPassFreqLabel.setText(juce::String(highPassFreqSlider.getValue()), juce::dontSendNotification);
         };
+        
+    lowPassFreqSlider.setRange(1000.0, 20000.0, 1.0);  
+    lowPassFreqSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    lowPassFreqSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 20);
+    addAndMakeVisible(&lowPassFreqSlider);
+    lowPassFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getValueTreeState(), "lowPassFreq", lowPassFreqSlider);
 
-    
+    lowPassFreqLabel.setJustificationType(juce::Justification::centred);
+    lowPassFreqLabel.setEditable(false, false, false);
+    addAndMakeVisible(&lowPassFreqLabel);
+    lowPassFreqLabel.setText(juce::String(lowPassFreqSlider.getValue()), juce::dontSendNotification);
+
+    lowPassFreqSlider.onValueChange = [this]() {
+        lowPassFreqLabel.setText(juce::String(lowPassFreqSlider.getValue()), juce::dontSendNotification);
+        };
 
     setSize(500, 250);
 }
 
 SaturatorAudioProcessorEditor::~SaturatorAudioProcessorEditor()
 {
+    
+    waveform1.setLookAndFeel(nullptr);
+    waveform2.setLookAndFeel(nullptr);
+    waveform3.setLookAndFeel(nullptr);
+
+    m_sliderInput.setLookAndFeel(nullptr);
+    m_sliderDrive.setLookAndFeel(nullptr);
+    m_sliderMix.setLookAndFeel(nullptr);
+
     highPassFreqSlider.setLookAndFeel(nullptr);
+    lowPassFreqSlider.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -83,17 +107,27 @@ void SaturatorAudioProcessorEditor::paint (juce::Graphics& g)
 {
    
     g.drawImageAt(backgroundImage, 0, 0);
-
+    
+    auto& outputMeter = processor.getOutputLevelMeter();
+    outputMeter.setBounds(10, 30, 15, getHeight() - 60); // Regola le dimensioni come necessario
+    outputMeter.repaint(); // Chiama repaint invece di paint direttamente
 }
 
 
 void SaturatorAudioProcessorEditor::resized()
 {
+    
+  
     highPassFreqSlider.setLookAndFeel(&customLookAndFeel);
     highPassFreqSlider.setBounds(getWidth() / 5 * 1 - 50, getHeight() / 2 +50, 100, 100);
-    
     int labelYOffset = 35;
     highPassFreqLabel.setBounds(highPassFreqSlider.getRight() + 10, highPassFreqSlider.getY() + labelYOffset, 50, 20);
+
+    lowPassFreqSlider.setLookAndFeel(&customLookAndFeel);
+    lowPassFreqSlider.setBounds(getWidth() / 5 * 4 - 50, getHeight() / 2 + 50, 100, 100);
+
+    lowPassFreqLabel.setBounds(lowPassFreqSlider.getRight() + 10, lowPassFreqSlider.getY() + labelYOffset, 50, 20);
+
 
     waveform1.setBounds(getWidth()/5 * 1 - 85, getHeight()/2 - 75, 30, 30);
     waveform2.setBounds(getWidth()/5 * 1 - 85, getHeight()/2 - 35 , 30, 30);

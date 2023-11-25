@@ -24,8 +24,11 @@ SaturatorAudioProcessor::SaturatorAudioProcessor()
 {
     highPassFilter.reset();
     lowPassFilter.reset();
-    currentCutoffFrequency = 200.0f; // O un altro valore iniziale
+    currentCutoffFrequency = 200.0f; // valore iniziale
     targetCutoffFrequency = currentCutoffFrequency;
+
+    currentLowPassCutoffFrequency = 8000.0f; // Valore iniziale
+    targetLowPassCutoffFrequency = currentLowPassCutoffFrequency;
 }
 
 
@@ -98,8 +101,9 @@ void SaturatorAudioProcessor::changeProgramName(int index, const juce::String& n
 //==============================================================================
 void SaturatorAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-   
-    // Prepare the filter with the specifications for each channel
+    lowPassFreq = *mValueTreeState.getRawParameterValue("lowPassFreq");
+    *lowPassFilter.state = *FilterCoefs::makeLowPass(sampleRate, lowPassFreq, Q);
+    
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = samplesPerBlock;
@@ -154,8 +158,23 @@ void SaturatorAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juc
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     
+    // Aggiornamento della frequenza di taglio del filtro passa basso
+    targetLowPassCutoffFrequency = mValueTreeState.getRawParameterValue("lowPassFreq")->load();
+    float lowPassInterpolationStep = (targetLowPassCutoffFrequency - currentLowPassCutoffFrequency) * 0.01f;
+    currentLowPassCutoffFrequency += lowPassInterpolationStep;
+
+    // Limita la frequenza di taglio al target
+    if ((lowPassInterpolationStep > 0 && currentLowPassCutoffFrequency > targetLowPassCutoffFrequency) ||
+        (lowPassInterpolationStep < 0 && currentLowPassCutoffFrequency < targetLowPassCutoffFrequency))
+    {
+        currentLowPassCutoffFrequency = targetLowPassCutoffFrequency;
+    }
+
+    // Aggiornamento dei coefficienti del filtro passa basso
+    *lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(getSampleRate(), currentLowPassCutoffFrequency, Q);
+
+    // Aggiornamento della frequenza di taglio del filtro passa alto
     targetCutoffFrequency = mValueTreeState.getRawParameterValue("highPassFreq")->load();
-    // linear interpolation
     float interpolationStep = (targetCutoffFrequency - currentCutoffFrequency) * 0.01f;
     currentCutoffFrequency += interpolationStep;
     // non superare target
@@ -164,6 +183,10 @@ void SaturatorAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juc
     {
         currentCutoffFrequency = targetCutoffFrequency;
     }
+
+    // Aggiornamento dei coefficienti del filtro passa alto
+    *highPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(getSampleRate(), currentCutoffFrequency, Q);
+
 
     saturatorInput = mValueTreeState.getRawParameterValue("INPUT")->load();
     saturatorDrive = mValueTreeState.getRawParameterValue("DRIVE")->load();
@@ -298,12 +321,13 @@ void SaturatorAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juc
     auto cutoffFrequency = mValueTreeState.getRawParameterValue("highPassFreq")->load();
     *highPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(getSampleRate(), currentCutoffFrequency, Q);
 
-    // create audiblock for HPF
+    // Applicazione dei filtri passa basso e passa alto
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     highPassFilter.process(context);
     lowPassFilter.process(context);
 
+    outputLevelMeter.setLevel(outputGain);
 }
 
 //==============================================================================
@@ -343,6 +367,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SaturatorAudioProcessor::cre
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "Mix", 0.0f, 1.0f, 0.5f));
 
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("highPassFreq", "High Pass Frequency", 20.0f, 800.0f, 200.0f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("lowPassFreq", "Low Pass Frequency", 1000.0f, 20000.0f, 8000.0f));
 
     return { parameters.begin(), parameters.end() };
 

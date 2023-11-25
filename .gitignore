@@ -70,3 +70,7 @@ Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.ilk
 Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator.pdb
 Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator_StandalonePlugin.log
 Builds/VisualStudio2022/x64/Debug/Standalone Plugin/Saturator_StandalonePlugin.vcxproj.FileListAbsolute.txt
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/unsuccessfulbuild
+*.vsidx
+*.ipch
+Builds/VisualStudio2022/x64/Debug/Shared Code/Saturato.AA87DBC1.tlog/CL.10808.write.1.tlog
