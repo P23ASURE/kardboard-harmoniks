@@ -8,7 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "LevelMeter.h"
+
 
 //==============================================================================
 SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor(SaturatorAudioProcessor& p)
@@ -52,24 +52,24 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor(SaturatorAudioProce
     mDryWetAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getValueTreeState(), "DRYWET", m_sliderMix);
     addAndMakeVisible(&m_sliderMix);
 
-    
-    highPassFreqSlider.setRange(20.0, 800.0, 1.0); 
-    highPassFreqSlider.setSliderStyle(juce::Slider::LinearHorizontal); 
-    highPassFreqSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 20); 
-    addAndMakeVisible(highPassFreqSlider); 
+
+    highPassFreqSlider.setRange(20.0, 800.0, 1.0);
+    highPassFreqSlider.setSliderStyle(juce::Slider::LinearHorizontal);
+    highPassFreqSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 20);
+    addAndMakeVisible(highPassFreqSlider);
     highPassFreqSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getValueTreeState(), "highPassFreq", highPassFreqSlider);
-    
+
 
     highPassFreqLabel.setJustificationType(juce::Justification::centred);
     highPassFreqLabel.setEditable(false, true, false);
     addAndMakeVisible(highPassFreqLabel);
-    highPassFreqLabel.setText(juce::String(highPassFreqSlider.getValue()), juce::dontSendNotification); 
+    highPassFreqLabel.setText(juce::String(highPassFreqSlider.getValue()), juce::dontSendNotification);
 
     highPassFreqSlider.onValueChange = [this]() {
         highPassFreqLabel.setText(juce::String(highPassFreqSlider.getValue()), juce::dontSendNotification);
         };
-        
-    lowPassFreqSlider.setRange(1000.0, 20000.0, 1.0);  
+
+    lowPassFreqSlider.setRange(1000.0, 20000.0, 1.0);
     lowPassFreqSlider.setSliderStyle(juce::Slider::LinearHorizontal);
     lowPassFreqSlider.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 20);
     addAndMakeVisible(&lowPassFreqSlider);
@@ -84,12 +84,22 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor(SaturatorAudioProce
         lowPassFreqLabel.setText(juce::String(lowPassFreqSlider.getValue()), juce::dontSendNotification);
         };
 
+    // Configurazione HPF Label
+    hpfLabel.setText("HPF", juce::dontSendNotification);
+    hpfLabel.attachToComponent(&highPassFreqSlider, true);
+    addAndMakeVisible(hpfLabel);
+
+    // Configurazione LPF Label
+    lpfLabel.setText("LPF", juce::dontSendNotification);
+    lpfLabel.attachToComponent(&lowPassFreqSlider, true);
+    addAndMakeVisible(lpfLabel);
+
     setSize(500, 250);
 }
 
 SaturatorAudioProcessorEditor::~SaturatorAudioProcessorEditor()
 {
-    
+
     waveform1.setLookAndFeel(nullptr);
     waveform2.setLookAndFeel(nullptr);
     waveform3.setLookAndFeel(nullptr);
@@ -103,41 +113,38 @@ SaturatorAudioProcessorEditor::~SaturatorAudioProcessorEditor()
 }
 
 //==============================================================================
-void SaturatorAudioProcessorEditor::paint (juce::Graphics& g)
+void SaturatorAudioProcessorEditor::paint(juce::Graphics& g)
 {
-   
+
     g.drawImageAt(backgroundImage, 0, 0);
-    
-    auto& outputMeter = processor.getOutputLevelMeter();
-    outputMeter.setBounds(10, 30, 15, getHeight() - 60); // Regola le dimensioni come necessario
-    outputMeter.repaint(); // Chiama repaint invece di paint direttamente
+
 }
 
 
 void SaturatorAudioProcessorEditor::resized()
 {
-    
-  
+
+
     highPassFreqSlider.setLookAndFeel(&customLookAndFeel);
-    highPassFreqSlider.setBounds(getWidth() / 5 * 1 - 50, getHeight() / 2 +50, 100, 100);
+    highPassFreqSlider.setBounds(getWidth() / 5 * 1 - 50, getHeight() / 2 + 50, 100, 100);
     int labelYOffset = 35;
     highPassFreqLabel.setBounds(highPassFreqSlider.getRight() + 10, highPassFreqSlider.getY() + labelYOffset, 50, 20);
 
     lowPassFreqSlider.setLookAndFeel(&customLookAndFeel);
-    lowPassFreqSlider.setBounds(getWidth() / 5 * 4 - 50, getHeight() / 2 + 50, 100, 100);
+    lowPassFreqSlider.setBounds(getWidth() / 5 * 4 - 70, getHeight() / 2 + 50, 100, 100);
 
     lowPassFreqLabel.setBounds(lowPassFreqSlider.getRight() + 10, lowPassFreqSlider.getY() + labelYOffset, 50, 20);
 
 
-    waveform1.setBounds(getWidth()/5 * 1 - 85, getHeight()/2 - 75, 30, 30);
-    waveform2.setBounds(getWidth()/5 * 1 - 85, getHeight()/2 - 35 , 30, 30);
-    waveform3.setBounds(getWidth()/5 * 1 - 85, getHeight()/2 + 5, 30, 30);
-        
-    m_sliderInput.setBounds(getWidth()/5 * 2- 50, getHeight()/2 - 65, 100, 100);
+    waveform1.setBounds(getWidth() / 5 * 1 - 85, getHeight() / 2 - 75, 30, 30);
+    waveform2.setBounds(getWidth() / 5 * 1 - 85, getHeight() / 2 - 35, 30, 30);
+    waveform3.setBounds(getWidth() / 5 * 1 - 85, getHeight() / 2 + 5, 30, 30);
+
+    m_sliderInput.setBounds(getWidth() / 5 * 2 - 50, getHeight() / 2 - 65, 100, 100);
     m_sliderInput.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-    m_sliderDrive.setBounds(getWidth()/5 * 3 - 50, getHeight()/2 - 65, 100, 100);
+    m_sliderDrive.setBounds(getWidth() / 5 * 3 - 50, getHeight() / 2 - 65, 100, 100);
     m_sliderDrive.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
-    m_sliderMix.setBounds(getWidth()/5 * 4 - 50, getHeight()/2 - 65, 100, 100);
+    m_sliderMix.setBounds(getWidth() / 5 * 4 - 50, getHeight() / 2 - 65, 100, 100);
     m_sliderMix.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
 
 }

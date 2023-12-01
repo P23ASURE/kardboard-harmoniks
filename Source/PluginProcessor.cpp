@@ -327,7 +327,7 @@ void SaturatorAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juc
     highPassFilter.process(context);
     lowPassFilter.process(context);
 
-    outputLevelMeter.setLevel(outputGain);
+ 
 }
 
 //==============================================================================
