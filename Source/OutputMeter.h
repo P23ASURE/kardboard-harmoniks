@@ -26,7 +26,7 @@ public:
 
     void handleAsyncUpdate() override;
 
-
+    float getOutpuRMSLevel() const { return level; }
 private:
     float level;
     juce::Label outputLabel; // Label per "OUT"

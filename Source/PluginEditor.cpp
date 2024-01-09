@@ -9,7 +9,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-
 //==============================================================================
 SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
@@ -30,7 +29,7 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
     mWaveformAttachment2 = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (audioProcessor.getValueTreeState(), "BUTTON2", waveform2);
     mWaveformAttachment3 = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (audioProcessor.getValueTreeState(), "BUTTON3", waveform3);
 
-    standardLabel.setText("Standard", juce::dontSendNotification);
+    standardLabel.setText("Smooth", juce::dontSendNotification);
     standardLabel.setJustificationType(juce::Justification::centred);
     addAndMakeVisible(standardLabel);
 
@@ -78,12 +77,12 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
     addAndMakeVisible(&m_sliderMix);
 
     m_sliderHPF.setSliderStyle(juce::Slider::LinearHorizontal);
-    m_sliderHPF.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    m_sliderHPF.setTextBoxStyle(juce::Slider::TextBoxAbove, true, 60, 20);
     m_sliderHPFAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getValueTreeState(), "hpFrequency", m_sliderHPF);
     addAndMakeVisible(&m_sliderHPF);
 
     m_sliderLPF.setSliderStyle(juce::Slider::LinearHorizontal);
-    m_sliderLPF.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20); 
+    m_sliderLPF.setTextBoxStyle(juce::Slider::TextBoxAbove, true, 60, 20);
     m_sliderLPFAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getValueTreeState(), "lpFrequency", m_sliderLPF);
     addAndMakeVisible(&m_sliderLPF);
 
@@ -91,22 +90,32 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
     addAndMakeVisible(outputMeter);
 
     functionLabel.setText("TYPE:", juce::dontSendNotification);
-    functionLabel.setJustificationType(juce::Justification::centred);
+    functionLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(functionLabel);
 
-    parametersLabel.setText("PARAMETERS:", juce::dontSendNotification);
-    parametersLabel.setJustificationType(juce::Justification::centred);
+    parametersLabel.setText("PARAMETER:", juce::dontSendNotification);
+    parametersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(parametersLabel);
 
     filtersLabel.setText("FILTERS:", juce::dontSendNotification);
-    filtersLabel.setJustificationType(juce::Justification::centred);
+    filtersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(filtersLabel);
 
     metersLabel.setText("METERS:", juce::dontSendNotification);
-    metersLabel.setJustificationType(juce::Justification::centred);
+    metersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(metersLabel);
 
-    setSize (500, 800);
+    autoGainToggle.setButtonText("Auto-Gain");
+    addAndMakeVisible(autoGainToggle);
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> autoGainAttachment;
+    autoGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.getValueTreeState(), "autoGainParam", autoGainToggle);
+
+    autoGainLabel.setText("Enable Auto-Gain", juce::dontSendNotification);
+    addAndMakeVisible(autoGainLabel);
+
+    setResizable(true, true);  
+    setResizeLimits(350, 500, 700, 1000);  
+    setSize (350, 500);
 }
 
 SaturatorAudioProcessorEditor::~SaturatorAudioProcessorEditor()
@@ -140,11 +149,11 @@ void SaturatorAudioProcessorEditor::resized() {
     waveformFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
     waveformFlexBox.alignItems = juce::FlexBox::AlignItems::center;
     // Section label:Parmeters
-    waveformFlexBox.items.add(juce::FlexItem(functionLabel).withMinHeight(20).withMinWidth(100));
+    waveformFlexBox.items.add(juce::FlexItem(functionLabel).withMinHeight(20).withMinWidth(80));
 
-    waveformFlexBox.items.add(juce::FlexItem(waveform1).withMinHeight(30).withMinWidth(30));
-    waveformFlexBox.items.add(juce::FlexItem(waveform2).withMinHeight(30).withMinWidth(30));
-    waveformFlexBox.items.add(juce::FlexItem(waveform3).withMinHeight(30).withMinWidth(30));
+    waveformFlexBox.items.add(juce::FlexItem(waveform1).withMinHeight(30).withMinWidth(40));
+    waveformFlexBox.items.add(juce::FlexItem(waveform2).withMinHeight(30).withMinWidth(40));
+    waveformFlexBox.items.add(juce::FlexItem(waveform3).withMinHeight(30).withMinWidth(40));
 
     // Applica il layout del FlexBox
     waveformFlexBox.performLayout(getLocalBounds().toFloat());
@@ -156,26 +165,26 @@ void SaturatorAudioProcessorEditor::resized() {
     parametersFlexBox.alignItems = juce::FlexBox::AlignItems::center;
 
     // Section label:Parmeters
-    parametersFlexBox.items.add(juce::FlexItem(parametersLabel).withMinHeight(20).withMinWidth(100));
+    parametersFlexBox.items.add(juce::FlexItem(parametersLabel).withMinHeight(20).withMinWidth(80));
 
     //  - Drive Slider and Label
     juce::FlexBox driveFlexBox;
     driveFlexBox.flexDirection = juce::FlexBox::Direction::column;
-    driveFlexBox.items.add(juce::FlexItem(m_sliderDrive).withMinHeight(100).withMinWidth(100));
+    driveFlexBox.items.add(juce::FlexItem(m_sliderDrive).withMinHeight(80).withMinWidth(80));
     driveFlexBox.items.add(juce::FlexItem(driveLabel).withMinHeight(20).withMinWidth(100));
     parametersFlexBox.items.add(juce::FlexItem(driveFlexBox).withFlex(1));
 
     // - Amount Slider and Label (replace with your amount slider and label)
     juce::FlexBox amountFlexBox;
     amountFlexBox.flexDirection = juce::FlexBox::Direction::column;
-    amountFlexBox.items.add(juce::FlexItem(m_sliderInput).withMinHeight(100).withMinWidth(100));
+    amountFlexBox.items.add(juce::FlexItem(m_sliderInput).withMinHeight(80).withMinWidth(80));
     amountFlexBox.items.add(juce::FlexItem(amountLabel).withMinHeight(20).withMinWidth(100));
     parametersFlexBox.items.add(juce::FlexItem(amountFlexBox).withFlex(1));
 
     // - Mix Slider and Label
     juce::FlexBox mixFlexBox;
     mixFlexBox.flexDirection = juce::FlexBox::Direction::column;
-    mixFlexBox.items.add(juce::FlexItem(m_sliderMix).withMinHeight(100).withMinWidth(100));
+    mixFlexBox.items.add(juce::FlexItem(m_sliderMix).withMinHeight(80).withMinWidth(80));
     mixFlexBox.items.add(juce::FlexItem(mixLabel).withMinHeight(20).withMinWidth(100));
     parametersFlexBox.items.add(juce::FlexItem(mixFlexBox).withFlex(1));
 
@@ -186,7 +195,7 @@ void SaturatorAudioProcessorEditor::resized() {
     filtersFlexBox.alignItems = juce::FlexBox::AlignItems::center;
 
     // Section Label: Filters
-    filtersFlexBox.items.add(juce::FlexItem(filtersLabel).withMinHeight(20).withMinWidth(100));
+    filtersFlexBox.items.add(juce::FlexItem(filtersLabel).withMinHeight(20).withMinWidth(80));
 
 
     // - HPF Slider and Label
@@ -211,27 +220,36 @@ void SaturatorAudioProcessorEditor::resized() {
     meterFlexBox.alignItems = juce::FlexBox::AlignItems::center;
 
     // - Section Label: Meters
-    meterFlexBox.items.add(juce::FlexItem(metersLabel).withMinHeight(20).withMinWidth(100));
+    meterFlexBox.items.add(juce::FlexItem(metersLabel).withMinHeight(20).withMinWidth(80));
+    meterFlexBox.items.add(juce::FlexItem(inputMeter).withFlex(2).withMinHeight(90).withMinWidth(90));
+    meterFlexBox.items.add(juce::FlexItem(outputMeter).withFlex(2).withMinHeight(90).withMinWidth(90));
 
-    meterFlexBox.items.add(juce::FlexItem(inputMeter).withFlex(2).withMinHeight(100).withMinWidth(100));
-    meterFlexBox.items.add(juce::FlexItem(outputMeter).withFlex(2).withMinHeight(100).withMinWidth(100));
+    // Layout Auto-Gain and Label
+    juce::FlexBox autoGainFlexBox;
+    autoGainFlexBox.flexDirection = juce::FlexBox::Direction::column;
+    autoGainFlexBox.justifyContent = juce::FlexBox::JustifyContent::center;
+    autoGainFlexBox.alignItems = juce::FlexBox::AlignItems::center;
+
+    autoGainFlexBox.items.add(juce::FlexItem(autoGainLabel).withMinHeight(20).withMinWidth(100));
+    autoGainFlexBox.items.add(juce::FlexItem(autoGainToggle).withMinHeight(30).withMinWidth(80));
 
     // - Main FlexBox for overall layout
     juce::FlexBox mainFlexBox;
     mainFlexBox.flexDirection = juce::FlexBox::Direction::column;
     mainFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceBetween;
     mainFlexBox.alignItems = juce::FlexBox::AlignItems::stretch;
-    mainFlexBox.items.add(juce::FlexItem(waveformFlexBox).withFlex(8));
-    mainFlexBox.items.add(juce::FlexItem(parametersFlexBox).withFlex(10)); 
-    mainFlexBox.items.add(juce::FlexItem(filtersFlexBox).withFlex(15)); 
-    mainFlexBox.items.add(juce::FlexItem(meterFlexBox).withFlex(15)); 
-    
+    mainFlexBox.items.add(juce::FlexItem(waveformFlexBox).withFlex(1));
+    mainFlexBox.items.add(juce::FlexItem(parametersFlexBox).withFlex(1)); 
+    mainFlexBox.items.add(juce::FlexItem(filtersFlexBox).withFlex(4)); 
+    mainFlexBox.items.add(juce::FlexItem(meterFlexBox).withFlex(2)); 
+    mainFlexBox.items.add(juce::FlexItem(autoGainFlexBox).withFlex(2));
+
     // Apply the main FlexBox layout
     mainFlexBox.performLayout(getLocalBounds().toFloat());
 
     // Calcola e posiziona le etichette in base alla posizione attuale dei radio button
-    int labelHeight = 20;
-    int marginLabel = 10; // Margine aggiuntivo per centrare le etichette
+    int labelHeight = 10;
+    int marginLabel = 5; // Margine aggiuntivo per centrare le etichette
 
     // Aggiusta le dimensioni e la posizione delle etichette
     standardLabel.setBounds(waveform1.getX() - marginLabel, waveform1.getBottom() + 5, waveform1.getWidth() + 2 * marginLabel, labelHeight);

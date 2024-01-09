@@ -24,6 +24,7 @@ public:
     void setLevel(float newLevel);
 
     void handleAsyncUpdate() override;
+    float getRMSLevel() const { return level; }
 private:
     float level;
     juce::Colour gradientStartColour;

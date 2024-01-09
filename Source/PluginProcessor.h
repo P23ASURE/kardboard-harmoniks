@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 #include "filters.h"
+#include "AutoGain.h"
+
 
 //==============================================================================
 /**
@@ -59,8 +61,7 @@ public:
     {
         return mValueTreeState;
     }
-    
-    
+        
 private:
     
     float saturatorInput, saturatorDrive, saturatorMix;
@@ -69,6 +70,8 @@ private:
     Filter highPassFilter, lowPassFilter;
     void updateFilterParameters();
     
+    AutoGain autoGain;
+
     juce::AudioProcessorValueTreeState mValueTreeState;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     

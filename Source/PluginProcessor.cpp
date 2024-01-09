@@ -31,7 +31,7 @@ SaturatorAudioProcessor::~SaturatorAudioProcessor()
 
 //==============================================================================
 void SaturatorAudioProcessor::updateFilterParameters() {
-    // Assumi che hpFrequency e lpFrequency siano i nomi dei parametri dei filtri
+    
     if (auto* hpParam = mValueTreeState.getRawParameterValue("hpFrequency")) {
         float hpFreq = hpParam->load();
         if (hpFreq > 0 && hpFreq < getSampleRate() / 2) {
@@ -46,7 +46,6 @@ void SaturatorAudioProcessor::updateFilterParameters() {
         }
     }
 }
-
 
 //==============================================================================
 const juce::String SaturatorAudioProcessor::getName() const
@@ -113,9 +112,9 @@ void SaturatorAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void SaturatorAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     highPassFilter.setSampleRate(sampleRate);
-    highPassFilter.setHighPassFrequency(20.0f); // Esempio di frequenza di taglio
+    highPassFilter.setHighPassFrequency(20.0f); 
     lowPassFilter.setSampleRate(sampleRate);
-    lowPassFilter.setLowPassFrequency(20000.0f); // Esempio di frequenza di taglio
+    lowPassFilter.setLowPassFrequency(20000.0f); 
 }
 
 
@@ -227,7 +226,7 @@ void SaturatorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     highPassFilter.processBlock(buffer);
     lowPassFilter.processBlock(buffer);
 
-    // Aggiorna RMS
+    // Aggiorna l'input meter
     if (auto* editor = dynamic_cast<SaturatorAudioProcessorEditor*>(getActiveEditor()))
     {
         editor->updateInputMeter(buffer);
@@ -238,6 +237,9 @@ void SaturatorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     {
         editor->updateOutputMeter(buffer);
     }
+
+    // Apply auto-gain processing
+    autoGain.process(buffer, buffer);
         
 }
 
@@ -252,7 +254,7 @@ juce::AudioProcessorEditor* SaturatorAudioProcessor::createEditor()
     return new SaturatorAudioProcessorEditor (*this);
 }
 
-//==============================================================================
+//=============ll=================================================================
 void SaturatorAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
@@ -280,6 +282,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout SaturatorAudioProcessor::cre
     
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("hpFrequency", "High Pass Frequency", 20.0f, 900.0f, 200.0f));
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("lpFrequency", "Low Pass Frequency", 1000.0f, 20000.0f, 5000.0f));
+
+    parameters.push_back(std::make_unique<juce::AudioParameterBool>("autoGainParam", "Auto Gain", false));
 
     return {parameters.begin(), parameters.end()};
     
