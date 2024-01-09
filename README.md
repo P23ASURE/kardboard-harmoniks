@@ -22,4 +22,5 @@ Plugin Parameters
 ## Improvement:
 * Added Input & Output meters
 * Added HPF & LPF
-
+* Added Resized UI option
+* Added Autogain
