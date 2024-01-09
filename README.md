@@ -3,6 +3,7 @@ audio saturation and distrotion
 
 ## Basic Processing
 * Signal Processing: The audio signal undergoes various stages of processing in the plugin. It starts with reading input buffers, followed by signal manipulation based on selected parameters, and finally, the modified signal is written to the output buffer.
+* Auto-Gain: Applying Gain to Output: After calculating and smoothing the gain adjustment, the method applies this gain to the output buffer. (enabling / disabling)
 * High-pass Filter: A high-pass filter (HPF) is calculated to remove unwanted low frequencies from the signal.
 * Low-pass Filter : Remove low boomy, muddy, subby frequencies.
 Plugin Parameters
