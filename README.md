@@ -25,3 +25,6 @@ Plugin Parameters
 * Added HPF & LPF
 * Added Resized UI option
 * Added Autogain
+
+  ![Sautrator](https://github.com/P23ASURE/saturator/blob/main/saturator_screenshot.png)
+
