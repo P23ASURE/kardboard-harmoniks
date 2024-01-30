@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -15,9 +7,16 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
 {
     
     waveform1.setRadioGroupId(WaveFormButtons);
+    waveform1.setLookAndFeel(&customLookAndFeel);
     waveform2.setRadioGroupId(WaveFormButtons);
+    waveform2.setLookAndFeel(&customLookAndFeel);
     waveform3.setRadioGroupId(WaveFormButtons);
+    waveform3.setLookAndFeel(&customLookAndFeel);
     
+    waveform1.setName("waveform");
+    waveform2.setName("waveform");
+    waveform3.setName("waveform");
+
     addAndMakeVisible(&waveform1);
     addAndMakeVisible(&waveform2);
     addAndMakeVisible(&waveform3);
@@ -51,6 +50,7 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
 
     driveLabel.setText("Drive", juce::dontSendNotification);
     driveLabel.setJustificationType(juce::Justification::centred);
+
     addAndMakeVisible(driveLabel);
 
     amountLabel.setText("Amount", juce::dontSendNotification);
@@ -63,16 +63,19 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
     
     m_sliderInput.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     m_sliderInput.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    m_sliderInput.setLookAndFeel(&customLookAndFeel);
     mInputAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (audioProcessor.getValueTreeState(), "INPUT", m_sliderInput);
     addAndMakeVisible(&m_sliderInput);
 
     m_sliderDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     m_sliderDrive.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    m_sliderDrive.setLookAndFeel(&customLookAndFeel);
     mDriveAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (audioProcessor.getValueTreeState(), "DRIVE", m_sliderDrive);
     addAndMakeVisible(&m_sliderDrive);
 
     m_sliderMix.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     m_sliderMix.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
+    m_sliderMix.setLookAndFeel(&customLookAndFeel);
     mDryWetAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (audioProcessor.getValueTreeState(), "DRYWET", m_sliderMix);
     addAndMakeVisible(&m_sliderMix);
 
@@ -89,33 +92,42 @@ SaturatorAudioProcessorEditor::SaturatorAudioProcessorEditor (SaturatorAudioProc
     addAndMakeVisible(inputMeter);
     addAndMakeVisible(outputMeter);
 
-    functionLabel.setText("TYPE:", juce::dontSendNotification);
+    functionLabel.setText("Type:", juce::dontSendNotification);
     functionLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(functionLabel);
 
-    parametersLabel.setText("PARAMETER:", juce::dontSendNotification);
+    parametersLabel.setText("Main:", juce::dontSendNotification);
     parametersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(parametersLabel);
 
-    filtersLabel.setText("FILTERS:", juce::dontSendNotification);
+    filtersLabel.setText("Filters:", juce::dontSendNotification);
     filtersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(filtersLabel);
 
-    metersLabel.setText("METERS:", juce::dontSendNotification);
+    metersLabel.setText("Meters:", juce::dontSendNotification);
     metersLabel.setJustificationType(juce::Justification::centredRight);
     addAndMakeVisible(metersLabel);
 
     autoGainToggle.setButtonText("Auto-Gain");
+    autoGainToggle.setName("autoGain");
     addAndMakeVisible(autoGainToggle);
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> autoGainAttachment;
     autoGainAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.getValueTreeState(), "autoGainParam", autoGainToggle);
-
+    autoGainToggle.setLookAndFeel(&customLookAndFeel);
     autoGainLabel.setText("Enable Auto-Gain", juce::dontSendNotification);
     addAndMakeVisible(autoGainLabel);
 
-    setResizable(true, true);  
-    setResizeLimits(350, 500, 700, 1000);  
-    setSize (350, 500);
+    addAndMakeVisible(&customBackground);
+    customBackground.toBack();
+
+    const int minWidth = 400;  
+    const int minHeight = 500; 
+    const float aspectRatio = static_cast<float>(minWidth) / minHeight;
+
+    setResizeLimits(minWidth, minHeight, minWidth * 2, minHeight * 2); 
+    getConstrainer()->setFixedAspectRatio(aspectRatio);
+
+    setSize(minWidth, minHeight);
 }
 
 SaturatorAudioProcessorEditor::~SaturatorAudioProcessorEditor()
@@ -136,12 +148,13 @@ void SaturatorAudioProcessorEditor::updateOutputMeter(const juce::AudioBuffer<fl
 //==============================================================================
 void SaturatorAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+   // g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
 }
 
 void SaturatorAudioProcessorEditor::resized() {
-
+    
+    customBackground.setBounds(getLocalBounds());
 
     // Top Section: Waveform Buttons
     juce::FlexBox waveformFlexBox;
@@ -155,7 +168,6 @@ void SaturatorAudioProcessorEditor::resized() {
     waveformFlexBox.items.add(juce::FlexItem(waveform2).withMinHeight(30).withMinWidth(40));
     waveformFlexBox.items.add(juce::FlexItem(waveform3).withMinHeight(30).withMinWidth(40));
 
-    // Applica il layout del FlexBox
     waveformFlexBox.performLayout(getLocalBounds().toFloat());
 
     // Middle Section: Parameters
@@ -165,7 +177,7 @@ void SaturatorAudioProcessorEditor::resized() {
     parametersFlexBox.alignItems = juce::FlexBox::AlignItems::center;
 
     // Section label:Parmeters
-    parametersFlexBox.items.add(juce::FlexItem(parametersLabel).withMinHeight(20).withMinWidth(80));
+    parametersFlexBox.items.add(juce::FlexItem(parametersLabel).withMinHeight(20).withMinWidth(85));
 
     //  - Drive Slider and Label
     juce::FlexBox driveFlexBox;
@@ -238,7 +250,7 @@ void SaturatorAudioProcessorEditor::resized() {
     mainFlexBox.flexDirection = juce::FlexBox::Direction::column;
     mainFlexBox.justifyContent = juce::FlexBox::JustifyContent::spaceBetween;
     mainFlexBox.alignItems = juce::FlexBox::AlignItems::stretch;
-    mainFlexBox.items.add(juce::FlexItem(waveformFlexBox).withFlex(1));
+    mainFlexBox.items.add(juce::FlexItem(waveformFlexBox).withFlex(1.5));
     mainFlexBox.items.add(juce::FlexItem(parametersFlexBox).withFlex(1)); 
     mainFlexBox.items.add(juce::FlexItem(filtersFlexBox).withFlex(4)); 
     mainFlexBox.items.add(juce::FlexItem(meterFlexBox).withFlex(2)); 
@@ -247,14 +259,15 @@ void SaturatorAudioProcessorEditor::resized() {
     // Apply the main FlexBox layout
     mainFlexBox.performLayout(getLocalBounds().toFloat());
 
-    // Calcola e posiziona le etichette in base alla posizione attuale dei radio button
     int labelHeight = 10;
-    int marginLabel = 5; // Margine aggiuntivo per centrare le etichette
+    int marginLabel = 1; 
 
-    // Aggiusta le dimensioni e la posizione delle etichette
-    standardLabel.setBounds(waveform1.getX() - marginLabel, waveform1.getBottom() + 5, waveform1.getWidth() + 2 * marginLabel, labelHeight);
+    int labelWidthIncrease = 20; 
+    standardLabel.setBounds(waveform1.getX() - marginLabel, waveform1.getBottom() + 5, waveform1.getWidth() + 2 * marginLabel + labelWidthIncrease, labelHeight);
     softLabel.setBounds(waveform2.getX() - marginLabel, waveform2.getBottom() + 5, waveform2.getWidth() + 2 * marginLabel, labelHeight);
     hardLabel.setBounds(waveform3.getX() - marginLabel, waveform3.getBottom() + 5, waveform3.getWidth() + 2 * marginLabel, labelHeight);
+
+    repaint();
 }
 //==============================================================================
 

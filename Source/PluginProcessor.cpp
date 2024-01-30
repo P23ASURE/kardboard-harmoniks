@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    Code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -118,7 +110,6 @@ void SaturatorAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlo
 }
 
 
-
 void SaturatorAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
@@ -148,7 +139,6 @@ bool SaturatorAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
   #endif
 }
 #endif
-
 
 void SaturatorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
@@ -222,17 +212,17 @@ void SaturatorAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         
     }
 
-    // Processa il segnale attraverso i filtri
+    // Process signals with filters
     highPassFilter.processBlock(buffer);
     lowPassFilter.processBlock(buffer);
 
-    // Aggiorna l'input meter
+    // Update input meter
     if (auto* editor = dynamic_cast<SaturatorAudioProcessorEditor*>(getActiveEditor()))
     {
         editor->updateInputMeter(buffer);
     }
 
-    // Aggiorna l'output meter
+    // Update output meter
     if (auto* editor = dynamic_cast<SaturatorAudioProcessorEditor*>(getActiveEditor()))
     {
         editor->updateOutputMeter(buffer);
@@ -276,7 +266,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SaturatorAudioProcessor::cre
     parameters.push_back(std::make_unique<juce::AudioParameterInt>("BUTTON3", "Waveform3", 0, 1, 0));
     
     
-    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("INPUT", "Input", 1.0f, 500.0f, 1.0f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("INPUT", "Input", 1.0f, 10.0f, 1.0f));
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("DRIVE", "Drive", 0.25f, 1.0f, 0.5f));
     parameters.push_back(std::make_unique<juce::AudioParameterFloat>("DRYWET", "Mix", 0.0f, 1.0f, 0.5f));
     

@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include <JuceHeader.h>
@@ -13,7 +5,8 @@
 #include "InputMeter.h"
 #include "OutputMeter.h"
 
-#include "CustomLook.h"
+#include "CustomLookAndFeel.h"
+#include "CustomBackground.h"
 
 //==============================================================================
 /**
@@ -39,6 +32,9 @@ public:
     void updateInputMeter(const juce::AudioBuffer<float>& buffer);
     void updateOutputMeter(const juce::AudioBuffer<float>& buffer);
 private:
+    CustomLookAndFeel customLookAndFeel;
+    CustomBackground customBackground;
+
     juce::Label functionLabel;
     juce::Label filtersLabel;
     juce::Label parametersLabel;

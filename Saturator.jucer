@@ -4,8 +4,20 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               pluginManufacturer="Plugins">
   <MAINGROUP id="r76Pcm" name="Saturator">
-    <GROUP id="{9E8D5E2A-88A3-482B-3E32-30A92ABAD5EB}" name="Assets"/>
+    <GROUP id="{9E8D5E2A-88A3-482B-3E32-30A92ABAD5EB}" name="Assets">
+      <FILE id="aGJvCQ" name="AutoGainOFF.svg" compile="0" resource="1" file="Assets/AutoGainOFF.svg"/>
+      <FILE id="NvBts2" name="AutoGainON.svg" compile="0" resource="1" file="Assets/AutoGainON.svg"/>
+      <FILE id="vLi5v4" name="Background.svg" compile="0" resource="1" file="Assets/Background.svg"/>
+      <FILE id="vpVUuo" name="ButtonON.svg" compile="0" resource="1" file="Assets/ButtonON.svg"/>
+      <FILE id="ndqdAi" name="ButtonOFF.svg" compile="0" resource="1" file="Assets/ButtonOFF.svg"/>
+    </GROUP>
     <GROUP id="{9067E17C-560B-F555-5958-6DD58253167D}" name="Source">
+      <FILE id="vHw37L" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="Source/CustomLookAndFeel.h"/>
+      <FILE id="yvShkN" name="CustomBackground.cpp" compile="1" resource="0"
+            file="Source/CustomBackground.cpp"/>
+      <FILE id="I5iqkf" name="CustomBackground.h" compile="0" resource="0"
+            file="Source/CustomBackground.h"/>
       <FILE id="a9f4WR" name="OutputMeter.cpp" compile="1" resource="0" file="Source/OutputMeter.cpp"/>
       <FILE id="lJkzO0" name="OutputMeter.h" compile="0" resource="0" file="Source/OutputMeter.h"/>
       <FILE id="ARVSkz" name="InputMeter.cpp" compile="1" resource="0" file="Source/InputMeter.cpp"/>
@@ -19,9 +31,10 @@
       <FILE id="QVbWb5" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="R0gXfE" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="vNbV7n" name="CustomLook.h" compile="0" resource="0" file="Source/CustomLook.h"/>
       <FILE id="NFYoAj" name="AutoGain.cpp" compile="1" resource="0" file="Source/AutoGain.cpp"/>
       <FILE id="bKGtgF" name="AutoGain.h" compile="0" resource="0" file="Source/AutoGain.h"/>
+      <FILE id="VeeMOD" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/CustomLookAndFeel.cpp"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
@@ -57,12 +70,12 @@
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
     <OSX/>
